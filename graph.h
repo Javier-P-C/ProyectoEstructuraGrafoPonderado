@@ -28,9 +28,7 @@ class Graph
     void loadNodeNames(std::string); //Carga los nombres de cada nodo
 
     //Búsquedas
-    std::string BFS(int,int); //El recorrido de BFS junto con el camino más corto
-    //std::string Dijkstra(int,int); //Algoritmo Dijkstra para el camino de costo mínimo
-    void pathBFS(int,int,std::queue<int>&,std::stringstream&); //apoya a BFS a sacar el camino más corto
+    std::string Dijkstra(int,int); //Algoritmo Dijkstra para el camino de costo mínimo
 
     //Impresiones
     std::string printAdjList(); //Imprime AdjList
@@ -43,8 +41,8 @@ class Graph
     //Auxiliares
     std::string number2string(int); //Devuelve el nombre del nodo solicitado
     int string2number(std::string); //Devuelve el número del nodo nombrado
-    std::string searchByNameBFS(std::string,std::string); //Actua como intermediario de BFS() cuando se realiza una búsqueda con nombres
     template <class T> void swap(std::vector<T>&,int,int); //Apoya con intercambios de valores en arreglos
+    std::string searchByNameDijkstra(std::string,std::string);
     
 
 };
@@ -198,89 +196,6 @@ std::string Graph::number2string(int num)
   return names[num];
 }
 
-std::string Graph::BFS(int start,int end) //Breadth-First Search
-{
-  std::queue<int> path_helper;
-  bool check[nodes];
-  std::stringstream visit;
-
-  for(int i=0;i<nodes;i++)
-  {
-    check[i]=false;
-  }
-
-  check[start] = true;
-  path_helper.push(start);
-  if(start==end)
-    goto next;
-
-  for(int i=start;i<nodes;i++)
-  {
-    for(int j=0;j<adjList[i].size();j++)
-    {
-      if(check[adjList[i][j]]==false)
-      {
-        check[adjList[i][j]]=true;
-        path_helper.push(adjList[i][j]);
-        if(adjList[i][j]==end)
-          goto next;
-      }
-    }
-  }
-  next: 
-  
-  pathBFS(start,end,path_helper,visit);
-  //std::cout<<visit.str()<<std::endl;
-  return visit.str();
-}
-
-void Graph::pathBFS(int start,int end,std::queue<int> &q,std::stringstream &visit)
-{
-  bool check[nodes];
-  int prev[nodes];
-
-  visit<<"Camino:";
-  for(int i=0;i<nodes;i++)
-  {
-    check[i]=false;
-    prev[i]=-1;
-  }
-
-  check[q.front()] = true;
-  prev[q.front()] = start;  
-  
-  while(!q.empty())
-  {
-    for(int i=0;i<adjList[q.front()].size();i++)
-    {
-      if(check[adjList[q.front()][i]]==false)
-      {
-        check[adjList[q.front()][i]] = true;
-        prev[adjList[q.front()][i]] = q.front();
-      }      
-    }
-    q.pop();
-  }
-
-  int path_finder = end;
-  std::vector<int> path_holder;
-  while (true)
-  {
-    if(path_finder == prev[path_finder])
-    {
-      path_holder.push_back(path_finder);
-      break;
-    }
-    path_holder.push_back(path_finder);
-    path_finder=prev[path_finder];
-  }
-    std::cout<<"good"<<std::endl;
-
-  for(int i=path_holder.size()-1;i>=0;i--)
-  {
-      visit<<"("<<path_holder[i]<<")"<<number2string(path_holder[i])<<" ";
-  }
-}
 
 std::string Graph::printAdjList()
 {
@@ -317,7 +232,7 @@ std::string Graph::printAdjListWithCost()
   return str.str();
 }
 
-/*std::string Graph::Dijkstra(int start,int end)
+std::string Graph::Dijkstra(int start,int end)
 {
   std::queue<int> tourist;
   bool permanent[nodes];
@@ -331,10 +246,7 @@ std::string Graph::printAdjListWithCost()
     price_path[i][0]=999999;
     price_path[i][1]=-1;
   }
-  for(int i=0;i<nodes;i++)
-  {
-    std::cout<<price_path[i][0]<<"-"<<price_path[i][1]<<std::endl;
-  }
+
   //filling price_path
   int actual = start;
   tourist.push(start);
@@ -352,21 +264,16 @@ std::string Graph::printAdjListWithCost()
       }
       if(!permanent[adjListCostOrder[actual][i]])
       {
-        if(price_path[actual][0]==999999)
+        if(price_path[actual][1]==-1)
         {
-          if(price_path[adjListCostOrder[actual][i]][0]>adjListCost[actual][i])
-          {
-            price_path[adjListCostOrder[actual][i]][0]=adjListCost[actual][i];
-            price_path[adjListCostOrder[actual][i]][1]=actual;
-          }
+          price_path[adjListCostOrder[actual][i]][0]=adjListCost[actual][i];
+          price_path[adjListCostOrder[actual][i]][1]=actual;
         }
         else
         {
-          std::cout<<"entre"<<std::endl;
-          if(price_path[adjListCostOrder[actual][i]][0]>(adjListCost[actual][i]+price_path[adjListCostOrder[actual][i]][0]))
+          if(price_path[adjListCostOrder[actual][i]][0]>(price_path[actual][0]+adjListCost[actual][i]))
           {
-            std::cout<<"entre2"<<std::endl;
-            price_path[adjListCostOrder[actual][i]][0]=adjListCost[actual][i]+price_path[adjListCostOrder[actual][i]][0];
+            price_path[adjListCostOrder[actual][i]][0]=price_path[actual][0]+adjListCost[actual][i];
             price_path[adjListCostOrder[actual][i]][1]=actual;
           }
         }
@@ -374,13 +281,8 @@ std::string Graph::printAdjListWithCost()
     }
     tourist.pop();
   }
-  std::cout<<"-----------------"<<std::endl;
-  for(int i=0;i<nodes;i++)
-  {
-    std::cout<<price_path[i][0]<<"-"<<price_path[i][1]<<std::endl;
-  }
+
   //getting path of minimum cost
-  std::cout<<price_path[end][1]<<std::endl;
   if(price_path[end][1]==-1)
   {
     std::cout<<"No se puede llegar del punto inicial seleccionado al destino seleccionado"<<std::endl;
@@ -400,13 +302,13 @@ std::string Graph::printAdjListWithCost()
   }
   while(!path_helper.empty())
   {
-    min_path<<path_helper.top()<<" ";
+    min_path<<"["<<path_helper.top()<<"]"<<number2string(path_helper.top())<<" ";
     path_helper.pop();
   }
   return min_path.str();
-}*/
+}
 
-std::string Graph::searchByNameBFS(std::string node1,std::string node2)
+std::string Graph::searchByNameDijkstra(std::string node1,std::string node2)
 {
   int nd1= string2number(node1);
   int nd2= string2number(node2);
@@ -416,7 +318,7 @@ std::string Graph::searchByNameBFS(std::string node1,std::string node2)
     return "ERROR: una o ambas de las entradas no coinciden con ningún resultado. Revise los nombres de los nodos en el menú si es necesario.";
   }
 
-  return BFS(nd1,nd2);
+  return Dijkstra(nd1,nd2);
 }
 
 void Graph::showInfo()

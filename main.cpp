@@ -16,7 +16,7 @@ int main()
   do
   {
     std::cout<<"\nEscoja una de las siguientes opciones:\n";
-    std::cout<<"1:Buscar el camino con menos paradas entre dos estaciones \n";
+    std::cout<<"1:Buscar el camino con el que recorra menos km \n";
     std::cout<<"2:Ver lo nombres de las estaciones del mapa \n";
     std::cout<<"3:Ver cuales estaciones conectan con otra \n";
     std::cout<<"0:Salir del programa\n";
@@ -35,7 +35,7 @@ int main()
         getline(std::cin,a,'\n');
         getline(std::cin,b,'\n');
         std::cout<<a<<" | "<<b<<std::endl;
-        std::cout<<"\n"<<mapa.searchByNameBFS(a,b)<<'\n';
+        std::cout<<"\n"<<mapa.searchByNameDijkstra(a,b)<<'\n';
       }
       else if(option2==2)
       {
@@ -43,7 +43,7 @@ int main()
         int a,b;
         std::cin>>a;
         std::cin>>b;
-        std::cout<<"\n"<<mapa.BFS(a,b)<<'\n';
+        std::cout<<"\n"<<mapa.Dijkstra(a,b)<<'\n';
       }
     }
     else if(option==2)
@@ -74,7 +74,9 @@ int main()
     }
   } while(option!=0);
   std::cout<<"FIN"<<std::endl;
-
-  //std::cout<<g.printAdjListWithCost()<<std::endl;
-  //std::cout<<g.Dijkstra(0, 7);
+  /*Graph g;
+  g.loadGraphList("metroCDMX.txt", 28);
+  g.loadNodeNames("estaciones.txt");
+  std::cout<<g.printAdjListWithCost()<<std::endl;
+  std::cout<<g.Dijkstra(27, 24);*/
 }
