@@ -13,7 +13,7 @@
 class Graph
 {
   private:
-    int nodes;
+    int nodes,unions;
     std::vector<std::vector<int>> adjList;//Guarda los nodos adyacentes
     std::vector<std::vector<float>> adjListCost;//Guarda el costo de cada arco
     std::vector<std::vector<int>> adjListCostOrder;//Guarda lo nodos adyacentes ordenadas con respecto a su costo
@@ -50,6 +50,7 @@ class Graph
 Graph::Graph() 
 {
   nodes = 0;
+  unions = 0;
 }
 
 Graph::~Graph() 
@@ -135,6 +136,7 @@ void Graph::loadGraphList(std::string doc_name,int vert)
       adjListCostOrder[b].push_back(a);
       adjListCost[a].push_back(c);
       adjListCost[b].push_back(c);
+      unions++;
     }
     reader.close();
 
@@ -323,7 +325,7 @@ std::string Graph::searchByNameDijkstra(std::string node1,std::string node2)
 
 void Graph::showInfo()
 {
-  std::cout<<nodes<<" nodos y "<<nodes*2<<" arcos fueron cargados exitosamente\n\n";
+  std::cout<<nodes<<" nodos y "<<unions<<" arcos bidireccionales fueron cargados exitosamente\n\n";
 }
 
 int Graph::string2number(std::string str)
