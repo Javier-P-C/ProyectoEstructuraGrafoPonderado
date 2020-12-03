@@ -1,13 +1,19 @@
 PROYECTO
 1.1)Explicación General del Código
+
 1.2)Análisis de Complejidad
+
 1.3)Casos de Prueba
 
 GRAFO PONDERADO
 2.1)¿Qué es?
+
 2.2)Uso
+
 2.3)Casos Reales 
+
 2.4)Algoritmo 
+
 2.5)Fuentes
 
 -----------------------------------------
@@ -54,60 +60,103 @@ La estructura utilizada, como se mencionó anteriormente es un grafo ponderado. 
 
 ---Lectura
 -INPUT
+
 2
+
 -OUTPUT
+
 Una lista de estaciones con su índice es desplegada
+
 La lista debe contener los mismos nombres que los del archivo estaciones.txt
 
 ---Escritura
 -INPUT
+
 1
+
 1
+
 MIXCOAC
+
 MORELOS
+
 -OUTPUT
+
 Se despliega en consola "[24]MIXCOAC [19]TACUBAYA [13]BALDERAS [14]SALTO DEL AGUA [15]PINO SUAREZ [16]CANDELARIA [17]SAN LAZARO [9]MORELOS"
+
 En el archivo rutaMin.txt debe aparecer la misma ruta
 
 ----Búsqueda
 -INPUT
+
 1
+
 1
+
 EL ROSARIO
+
 JAMAICA
+
 -OUTPUT
+
 Se despliega en consola "[0]EL ROSARIO [6]TACUBA [11]HIDALGO [12]BELLAS ARTES [14]SALTO DEL AGUA [15]PINO SUAREZ [21]CHABACANO [22]JAMAICA"
+
 El archivo rutaMin.txt debe contener la misma ruta
+
 En consola se muestran 14 km como distancia de la ruta
 
 -INPUT
+
 1
+
 1
+
 OCEANIA
+
 LA RAZA
+
 -OUTPUT
+
 Se despliega en consola "[10]OCEANIA [5]CONSULADO [4]LA RAZA"
+
 El archivo rutaMin.txt debe contener la misma ruta
+
 En consola se muestran 6.7 km como distancia de la ruta
 
 -INPUT
+
 1
+
 2
+
 25
+
 26
+
 -OUTPUT
+
 Se despliega en consola "[25]ZAPATA [26]ERMITA"
+
 El archivo rutaMin.txt debe contener la misma ruta
+
 En consola se muestran 3 km como distancia de la ruta
 
 -INPUT
+
 1
+
 2
+
 26
+
 25
+
 -OUTPUT
+
 Se despliega en consola "[26]ERMITA [25]ZAPATA"
+
 El archivo rutaMin.txt debe contener la misma ruta
+
 En consola se muestran 3 km como distancia de la ruta
 
 -----------------------------------------
