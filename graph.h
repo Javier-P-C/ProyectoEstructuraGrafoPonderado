@@ -33,17 +33,16 @@ class Graph
     //Impresiones
     std::string printAdjList(); //Imprime AdjList
     std::string printAdjListWithCost(); //Imprime las listas adyacentes y los costos
-    void showInfo(); //Imprime la candidad de nodos y arcos
-    void neighborNodes(int);
-    void showAllNodes();
-    void neighborNodesString(std::string);
+    void showInfo(); //Imprime la cantidad de nodos y arcos
+    void neighborNodes(int); //Imprime los nodos vecinos
+    void showAllNodes(); //Imprime todos los nodos y su índice
 
     //Auxiliares
     std::string number2string(int); //Devuelve el nombre del nodo solicitado
     int string2number(std::string); //Devuelve el número del nodo nombrado
     template <class T> void swap(std::vector<T>&,int,int); //Apoya con intercambios de valores en arreglos
-    std::string searchByNameDijkstra(std::string,std::string);
-    
+    std::string searchByNameDijkstra(std::string,std::string); //Manda a llamar a Dijkstra
+    void neighborNodesString(std::string); // Manda a llamar a neighborNodes
 
 };
 
@@ -302,11 +301,20 @@ std::string Graph::Dijkstra(int start,int end)
     }
     index_actual=(int)price_path[index_actual][1];
   }
+
+  std::ofstream writer("rutaMin.txt");
+  writer<<"----RUTA ENCONTRADA----\n";
+  int aux =0;
   while(!path_helper.empty())
   {
+    aux=path_helper.top();
     min_path<<"["<<path_helper.top()<<"]"<<number2string(path_helper.top())<<" ";
+    writer<<"["<<path_helper.top()<<"]"<<number2string(path_helper.top())<<"\n";
     path_helper.pop();
   }
+  writer<<price_path[aux][0]<<" km aprox de un punto a otro";
+  min_path<<"\n"<<price_path[aux][0]<<" km aprox de un punto a otro\n";
+  writer.close();
   return min_path.str();
 }
 

@@ -74,9 +74,4 @@ int main()
     }
   } while(option!=0);
   std::cout<<"FIN"<<std::endl;
-  /*Graph g;
-  g.loadGraphList("metroCDMX.txt", 28);
-  g.loadNodeNames("estaciones.txt");
-  std::cout<<g.printAdjListWithCost()<<std::endl;
-  std::cout<<g.Dijkstra(27, 24);*/
 }
